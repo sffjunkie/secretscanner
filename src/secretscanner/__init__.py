@@ -92,7 +92,7 @@ def report(tokens: FoundTokens, verbose: bool) -> None:
 
     if files:
         rich.print("[green]Files with embedded secrets:[/]")
-        for file, tokens in files.items():
+        for file, tokens in sorted(files.items()):
             rich.print(f"{indent}[yellow]{file}[/]")
             if verbose:
                 for token in tokens:
