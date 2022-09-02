@@ -10,15 +10,17 @@ import rich.console
 
 __version__ = "0.1.1"
 
+TokenRe = str
+TokenType = str
+TokenParseInfo = dict[TokenType, TokenRe]
 TokenIssuer = str
-Tokens = dict[str, str]
-TokenInfo = dict[TokenIssuer, Tokens]
+TokenIssuerParseInfo = dict[TokenIssuer, TokenParseInfo]
 
-token_format: dict[str, str] = {
+token_format: TokenParseInfo = {
     "github": "[A-Za-z0-9_]{36,251}",
     "digitalocean": "[A-Za-z0-9_]{64,}",
 }
-tokens: TokenInfo = {
+token_issuer_parse_info: TokenIssuerParseInfo = {
     "github": {
         "pat": f"ghp_{token_format['github']}",
         "oauth": f"gho_{token_format['github']}",
@@ -36,14 +38,14 @@ tokens: TokenInfo = {
 }
 
 
-class TokenResult(TypedDict):
+class TokenInfo(TypedDict):
     file: str
     issuer: TokenIssuer
     token: str
     type: str
 
 
-FoundTokens = list[TokenResult]
+TokenResults = list[TokenInfo]
 
 
 def walk(path: Path) -> Generator[Path, None, None]:
@@ -54,8 +56,8 @@ def walk(path: Path) -> Generator[Path, None, None]:
         yield p.resolve()
 
 
-def scan(walk_me: Path) -> FoundTokens:
-    found: FoundTokens = []
+def scan(walk_me: Path) -> TokenResults:
+    found: TokenResults = []
     for f in walk(walk_me):
         with open(f, "r") as fp:
             try:
@@ -68,7 +70,7 @@ def scan(walk_me: Path) -> FoundTokens:
                     matches = re.finditer(token_re, data, flags=re.IGNORECASE)
                     if matches is not None:
                         for match in matches:
-                            ft: TokenResult = {
+                            ft: TokenInfo = {
                                 "file": str(f),
                                 "issuer": issuer,
                                 "type": token_type,
@@ -83,11 +85,13 @@ def report(tokens: FoundTokens, verbose: bool) -> None:
     console = rich.console.Console()
     indent = "  "
 
+def tokenlist_to_dict(tokens: TokenResults) -> dict[str, list[Any]]:
     files: dict[str, list[Any]] = defaultdict(list)
     for item in tokens:
         files[item["file"]].append(item)
 
-    if files:
+def report(tokens: TokenResults, directory: Path, verbose: bool) -> None:
+    console = rich.console.Console()
         rich.print("[green]Files with embedded secrets:[/]")
         for file, tokens in sorted(files.items()):
             rich.print(f"{indent}[yellow]{file}[/]")
@@ -108,5 +112,5 @@ def report(tokens: FoundTokens, verbose: bool) -> None:
                         rich.print("\n".join(txt))
 
 
-def json_report(tokens: FoundTokens) -> None:
+def json_report(tokens: TokenResults) -> None:
     print(json.dumps(tokens))
