@@ -7,6 +7,9 @@ license = "Apache-2.0"
 readme = "ReadMe.md"
 repository = "https://github.com/sffjunkie/secretscanner"
 
+[tool.poetry.scripts]
+secretscanner = 'secretscanner.__main__:run'
+
 [tool.poetry.dependencies]
 python = "^3.10"
 click = "^8.1.3"
