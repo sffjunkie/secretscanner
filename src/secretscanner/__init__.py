@@ -8,7 +8,7 @@ from typing import Any, Generator, TypedDict
 import rich
 import rich.console
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 
 home = Path.home()
 config_dir = home / ".config"
