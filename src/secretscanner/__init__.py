@@ -42,7 +42,7 @@ class TokenInfo(TypedDict):
     file: str
     issuer: TokenIssuer
     token: str
-    type: str
+    type: TokenType
 
 
 TokenResults = list[TokenInfo]
