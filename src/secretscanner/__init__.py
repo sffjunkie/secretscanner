@@ -10,9 +10,6 @@ import rich.console
 
 __version__ = "0.1.1"
 
-home = Path.home()
-config_dir = home / ".config"
-
 TokenIssuer = str
 Tokens = dict[str, str]
 TokenInfo = dict[TokenIssuer, Tokens]
