@@ -28,18 +28,18 @@ from secretscanner import json_report, scan, report
 )
 def run(directory: str, verbose: bool, quiet: bool, json: bool):
     """Scan a directory for secrets."""
-    walk_me = Path(directory).expanduser()
-    if not walk_me.exists():
-        rich.print(f"Directory {str(walk_me)} not found.")
+    scan_dir = Path(directory).expanduser()
+    if not scan_dir.exists():
+        rich.print(f"Directory {str(scan_dir)} not found.")
 
-    found_tokens = scan(walk_me)
+    tokens = scan(scan_dir)
     if not quiet:
         if not json:
-            report(found_tokens, verbose)
+            report(tokens, verbose)
         else:
-            json_report(found_tokens)
+            json_report(tokens)
 
-    if len(found_tokens) == 0:
+    if len(tokens) == 0:
         exit(0)
     else:
         exit(1)
