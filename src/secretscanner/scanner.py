@@ -70,6 +70,6 @@ def scan(scan_me: Path) -> TokenResults:
                             found.append(ft)
 
     if found:
-        set_ignored_flag(found, scan_dir)
+        set_ignored_flag(found, scan_me)
 
     return found
