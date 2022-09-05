@@ -52,7 +52,7 @@ def report(tokens: TokenResults, verbose: bool) -> None:
             color = "yellow"
             suffix = ""
 
-        rich.print(f"{INDENT}[{color}]{file} {suffix}[/]")
+        rich.print(f"{INDENT}[{color}]{file}{suffix}[/]")
         if verbose:
             for token in tokens:
                 print_token(token, console)
