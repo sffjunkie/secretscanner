@@ -1,6 +1,7 @@
 from secretscanner.types import TokenResults
 from pathlib import Path
 import pathspec
+from typing import Iterable
 
 
 def rfindfile(filename: str, path: Path | None = None) -> Path | None:
@@ -29,7 +30,9 @@ def gitignore_pathspec(gitignore: Path) -> pathspec.PathSpec:
         return spec  # type: ignore
 
 
-def gitignored(files: list[str], directory: Path) -> tuple[list[str], list[str]]:
+def gitignored(
+    files: Iterable[str], directory: Path
+) -> tuple[Iterable[str], Iterable[str]]:
     """Determine whether files are ignored by `.gitignore` or not"""
     gi = rfindfile(".gitignore", directory)
     if gi is not None:
