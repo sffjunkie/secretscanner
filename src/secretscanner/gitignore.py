@@ -1,3 +1,4 @@
+from secretscanner.types import TokenResults
 from pathlib import Path
 import pathspec
 
@@ -43,3 +44,19 @@ def gitignored(files: list[str], directory: Path) -> tuple[list[str], list[str]]
         return ignored, notignored
     else:
         return files, []
+
+
+def set_ignored_flag(tokens: TokenResults, directory: Path):
+    files = {t["file"] for t in tokens}
+    if not files:
+        return
+
+    _ignored, notignored = gitignored(files, directory)
+    if not notignored:
+        return
+
+    for token in tokens:
+        if token["file"] in notignored:
+            token["ignored"] = False
+        else:
+            token["ignored"] = True

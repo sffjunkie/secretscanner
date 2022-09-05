@@ -2,6 +2,7 @@ from pathlib import Path
 from typing import Generator
 
 from secretscanner.find import find_tokens
+from secretscanner.gitignore import set_ignored_flag
 from secretscanner.types import (
     TokenInfo,
     TokenIssuerParseInfo,
@@ -62,5 +63,8 @@ def scan(scan_dir: Path) -> TokenResults:
                                 "ignored": True,
                             }
                             found.append(ft)
+
+    if found:
+        set_ignored_flag(found, scan_dir)
 
     return found
