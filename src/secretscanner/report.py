@@ -39,8 +39,6 @@ def report(tokens: TokenResults, verbose: bool) -> None:
     console = rich.console.Console()
 
     td = tokenlist_to_dict(tokens)
-    if not td:
-        return
 
     rich.print("[green]Files with embedded secrets:[/]")
     for file, tokens in sorted(td.items()):
