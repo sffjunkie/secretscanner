@@ -47,7 +47,7 @@ def report(tokens: TokenResults, verbose: bool) -> None:
         ignored = tokens[0]["ignored"]
         if ignored:
             color = "dim yellow"
-            suffix = " (gitignore)"
+            suffix = " (ignored via .gitignore)"
         else:
             color = "yellow"
             suffix = ""
