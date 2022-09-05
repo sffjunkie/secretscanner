@@ -41,7 +41,8 @@ def walk(path: Path) -> Generator[Path, None, None]:
         yield p.resolve()
 
 
-def scan(scan_dir: Path) -> TokenResults:
+def scan(scan_me: Path) -> TokenResults:
+    if scan_me.is_file():
     found: TokenResults = []
     for f in walk(scan_dir):
         with open(f, "r") as fp:
