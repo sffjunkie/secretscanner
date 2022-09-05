@@ -33,7 +33,7 @@ token_issuer_parse_info: TokenIssuerParseInfo = {
     "digitalocean": {
         "pat": f"dop_v1_{token_format['digitalocean']}",
         "oauth": f"doo_v1_{token_format['digitalocean']}",
-        "refresh": f"dor_v1_{token_format['digitalocean']}",
+        "refresh": f"re(dor_v1_{token_format['digitalocean']})",
     },
 }
 
