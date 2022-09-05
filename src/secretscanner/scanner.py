@@ -43,8 +43,12 @@ def walk(path: Path) -> Generator[Path, None, None]:
 
 def scan(scan_me: Path) -> TokenResults:
     if scan_me.is_file():
+        files = [scan_me]
+    else:
+        files = list(walk(scan_me))
+
     found: TokenResults = []
-    for f in walk(scan_dir):
+    for f in files:
         with open(f, "r") as fp:
             try:
                 data = fp.read(-1)
