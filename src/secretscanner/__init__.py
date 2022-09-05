@@ -8,13 +8,15 @@ from typing import Any, Generator, TypedDict
 import rich
 import rich.console
 
-__version__ = "0.1.1"
+from secretscanner.find import find_tokens
+from secretscanner.types import (
+    TokenIssuerParseInfo,
+    TokenParseInfo,
+    TokenResults,
+    TokenInfo,
+)
 
-TokenRe = str
-TokenType = str
-TokenParseInfo = dict[TokenType, TokenRe]
-TokenIssuer = str
-TokenIssuerParseInfo = dict[TokenIssuer, TokenParseInfo]
+__version__ = "0.1.1"
 
 token_format: TokenParseInfo = {
     "github": "[A-Za-z0-9_]{36,251}",
@@ -36,16 +38,6 @@ token_issuer_parse_info: TokenIssuerParseInfo = {
         "refresh": f"re(dor_v1_{token_format['digitalocean']})",
     },
 }
-
-
-class TokenInfo(TypedDict):
-    file: str
-    issuer: TokenIssuer
-    token: str
-    type: TokenType
-
-
-TokenResults = list[TokenInfo]
 
 
 def walk(path: Path) -> Generator[Path, None, None]:
