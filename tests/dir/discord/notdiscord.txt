@@ -1,0 +1,2 @@
+client_id=GHJSGSJHGgjhgshjagjgasj01823hJH
+Authorization: Bot GHJSGSJHGgjhgshjagjgasj01823hJH!

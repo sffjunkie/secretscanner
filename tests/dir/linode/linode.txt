@@ -1,0 +1,3 @@
+LINODE_API_TOKEN  =   GHJSGSJHGgjhgshjagjgasj01823hJHGGHJSGSJHGgjhgshjagjgasj01823hJHG
+LINODE_API_TOKEN :   GHJSGSJHGgjhgshjagjgasj01823hJHGGHJSGSJHGgjhgshjagjgasj01823hJHG
+Authorization: Bearer GHJSGSJHGgjhgshjagjgasj01823hJHGGHJSGSJHGgjhgshjagjgasj01823hJHG

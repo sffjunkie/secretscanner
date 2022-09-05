@@ -13,6 +13,9 @@ from secretscanner.types import (
 token_format: TokenParseInfo = {
     "github": "[A-Za-z0-9_]{36,251}",
     "digitalocean": "[A-Za-z0-9_]{64,}",
+    "adafruit": "[A-Za-z0-9]{32}",
+    "discord": "[A-Za-z0-9]{32}",
+    "linode": "[A-Za-z0-9]{64}",
 }
 token_issuer_parse_info: TokenIssuerParseInfo = {
     "github": {
@@ -30,6 +33,21 @@ token_issuer_parse_info: TokenIssuerParseInfo = {
         "refresh": f"re(dor_v1_{token_format['digitalocean']})",
     },
     "postgresql": {"url": "url(postgres)"},
+    "adafruit": {
+        # https://io.adafruit.com/api/docs/#authentication
+        "header": f"re(X-AIO-Key: {token_format['adafruit']})",
+        "url": f"re(x-aio-key={token_format['adafruit']})",
+        "env": fr"ADAFRUIT_IO_KEY\s*\=\s*{token_format['adafruit']}",
+    },
+    "discord": {
+        "url": f"re(client_id={token_format['discord']})",
+        "bot": f"re(Authorization: Bot {token_format['discord']})",
+    },
+    "linode": {
+        "env": fr"LINODE_API_TOKEN\s*=\s*{token_format['linode']}",
+        "yaml": fr"LINODE_API_TOKEN\s*:\s*\"?{token_format['linode']}\"?",
+        "bearer": f"re(Authorization: Bearer {token_format['linode']})",
+    },
 }
 
 
@@ -55,19 +73,19 @@ def scan(scan_me: Path) -> TokenResults:
             except UnicodeDecodeError:
                 continue
 
-            for issuer, token_info in token_issuer_parse_info.items():
-                for token_type, token_format in token_info.items():
-                    tokens = find_tokens(data, token_format)
-                    if tokens:
-                        for match in tokens:
-                            ft: TokenInfo = {
-                                "file": str(f),
-                                "issuer": issuer,
-                                "type": token_type,
-                                "token": str(match.group(0)),
-                                "ignored": True,
-                            }
-                            found.append(ft)
+        for issuer, token_info in token_issuer_parse_info.items():
+            for token_type, token_format in token_info.items():
+                tokens = find_tokens(data, token_format)
+                if tokens:
+                    for match in tokens:
+                        ft: TokenInfo = {
+                            "file": str(f),
+                            "issuer": issuer,
+                            "type": token_type,
+                            "token": str(match.group(0)),
+                            "ignored": True,
+                        }
+                        found.append(ft)
 
     if found:
         set_ignored_flag(found, scan_me)

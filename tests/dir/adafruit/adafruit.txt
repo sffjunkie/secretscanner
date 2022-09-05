@@ -1,0 +1,3 @@
+X-AIO-Key: GHJSGSJHGgjhgshjagjgasj01823hJHG
+x-aio-key=GHJSGSJHGgjhgshjagjgasj01823hJHG
+ADAFRUIT_IO_KEY  =   GHJSGSJHGgjhgshjagjgasj01823hJHG
