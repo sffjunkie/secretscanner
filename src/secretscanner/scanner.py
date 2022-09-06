@@ -1,3 +1,4 @@
+"""Token scanning"""
 from pathlib import Path
 from typing import Generator
 
