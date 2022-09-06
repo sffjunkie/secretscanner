@@ -1,4 +1,6 @@
-from secretscanner.types import TokenResults
+"""Use .gitignore to determine files that rely on an entry to stop
+them being pushed to a repository
+"""
 from pathlib import Path
 from typing import Iterable
 
@@ -53,6 +55,7 @@ def gitignored(
 
 
 def set_ignored_flag(tokens: TokenResults, directory: Path):
+    """Set the ignored flag on a token"""
     files = {t["file"] for t in tokens}
     if not files:
         return
