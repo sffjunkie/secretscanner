@@ -13,11 +13,11 @@ from secretscanner.types import (
 
 def walk(path: Path) -> Generator[Path, None, None]:
     """Walk a path and return all files found"""
-    for p in Path(path).iterdir():
-        if p.is_dir():
-            yield from walk(p)
+    for entry in Path(path).iterdir():
+        if entry.is_dir():
+            yield from walk(entry)
             continue
-        yield p.resolve()
+        yield entry.resolve()
 
 
 def scan(scan_me: Path) -> TokenResults:
@@ -28,8 +28,8 @@ def scan(scan_me: Path) -> TokenResults:
         files = list(walk(scan_me))
 
     found: TokenResults = []
-    for f in files:
-        with open(f, "r") as fp:
+    for file_to_scan in files:
+        with open(file_to_scan, "r") as fp:
             try:
                 data = fp.read(-1)
             except UnicodeDecodeError:
@@ -41,14 +41,14 @@ def scan(scan_me: Path) -> TokenResults:
                 if tokens:
                     for match in tokens:
                         token_text = str(match.group(0))
-                        ft: Token = {
-                            "file": str(f),
+                        token: Token = {
+                            "file": str(file_to_scan),
                             "issuer": issuer,
                             "type": token_type,
                             "token": token_text,
                             "ignored": False,
                         }
-                        found.append(ft)
+                        found.append(token)
 
     if found:
         set_ignored_flag(found, scan_me)
