@@ -11,6 +11,7 @@ from secretscanner.types import (
 
 
 def walk(path: Path) -> Generator[Path, None, None]:
+    """Walk a path and return all files found"""
     for p in Path(path).iterdir():
         if p.is_dir():
             yield from walk(p)
@@ -19,6 +20,7 @@ def walk(path: Path) -> Generator[Path, None, None]:
 
 
 def scan(scan_me: Path) -> TokenResults:
+    """Scan a path for tokens"""
     if scan_me.is_file():
         files = [scan_me]
     else:
