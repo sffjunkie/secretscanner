@@ -45,8 +45,8 @@ def report(tokens: TokenResults, verbose: bool) -> None:
     token_to_file = tokenlist_to_file_dict(tokens)
 
     rich.print("[green]Files with embedded secrets:[/]")
-    for file, tokens in sorted(token_to_file.items()):
-        ignored = tokens[0]["ignored"]
+    for file, tokens_in_file in sorted(token_to_file.items()):
+        ignored = tokens_in_file[0]["ignored"]
         if ignored:
             color = "dim yellow"
             suffix = " (ignored via .gitignore)"
@@ -56,7 +56,7 @@ def report(tokens: TokenResults, verbose: bool) -> None:
 
         rich.print(f"{INDENT}[{color}]{file}{suffix}[/]")
         if verbose:
-            for token in tokens:
+            for token in tokens_in_file:
                 print_token(token, console)
 
 
