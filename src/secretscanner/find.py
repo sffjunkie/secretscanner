@@ -35,19 +35,11 @@ def find_url_token(data: str, scheme: str | None = None) -> list[Match[str]]:
     return found
 
 
-def parse_token_format(tf: TokenFormat) -> tuple[str, str]:
-    """Parse the `type(format)` string"""
-    format_re = r"(\w+)\((.*)\)$"
-    m = re.match(format_re, tf, re.IGNORECASE)
-    if m is None:
-        return "re", tf
-
-    return m.group(1), m.group(2)
-
-
 def find_tokens(data: str, tf: TokenFormat) -> list[Match[str]]:
     """Find all tokens within the data"""
-    token_type, token_format = parse_token_format(tf)
+    token_type = tf["type"]
+    token_format = tf["format"]
+
     if token_type == "url":
         matches = find_url_token(data, scheme=token_format)
     else:
