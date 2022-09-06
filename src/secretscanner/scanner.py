@@ -20,12 +20,12 @@ def walk(path: Path) -> Generator[Path, None, None]:
         yield entry.resolve()
 
 
-def scan(scan_me: Path) -> TokenResults:
+def scan(scan_path: Path) -> TokenResults:
     """Scan a path for tokens"""
-    if scan_me.is_file():
-        files = [scan_me]
+    if scan_path.is_file():
+        files = [scan_path]
     else:
-        files = list(walk(scan_me))
+        files = list(walk(scan_path))
 
     found: TokenResults = []
     for file_to_scan in files:
@@ -51,6 +51,6 @@ def scan(scan_me: Path) -> TokenResults:
                         found.append(token)
 
     if found:
-        set_ignored_flag(found, scan_me)
+        set_ignored_flag(found, scan_path)
 
     return found
