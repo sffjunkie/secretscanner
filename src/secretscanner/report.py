@@ -12,6 +12,7 @@ INDENT = "  "
 
 
 def tokenlist_to_dict(tokens: TokenResults) -> dict[str, list[Any]]:
+    """Convert the list of tokens to a dict with file name as key."""
     files: dict[str, list[Any]] = defaultdict(list)
     for item in tokens:
         files[item["file"]].append(item)
@@ -20,6 +21,7 @@ def tokenlist_to_dict(tokens: TokenResults) -> dict[str, list[Any]]:
 
 
 def print_token(token: Token, console: rich.console.Console):
+    """Print the information on a single token"""
     rich.print(f"{INDENT*2}- [blue]Issuer[/]: {token['issuer']}")
     rich.print(f"{INDENT*2}  [blue]Type[/]: {token['type']}")
     if len(token["token"]) + 20 < console.width:
@@ -36,6 +38,7 @@ def print_token(token: Token, console: rich.console.Console):
 
 
 def report(tokens: TokenResults, verbose: bool) -> None:
+    """Print out report."""
     console = rich.console.Console()
 
     td = tokenlist_to_dict(tokens)
@@ -57,4 +60,5 @@ def report(tokens: TokenResults, verbose: bool) -> None:
 
 
 def json_report(tokens: TokenResults) -> None:
+    """Print out the tokens as a JSON formatted string."""
     print(json.dumps(tokens))
