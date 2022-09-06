@@ -7,7 +7,7 @@ TokenIssuer = str
 TokenIssuerParseInfo = dict[TokenIssuer, TokenParseInfo]
 
 
-class TokenInfo(TypedDict):
+class Token(TypedDict):
     file: str
     issuer: TokenIssuer
     token: str
@@ -15,4 +15,4 @@ class TokenInfo(TypedDict):
     ignored: bool
 
 
-TokenResults = list[TokenInfo]
+TokenResults = list[Token]

@@ -6,7 +6,7 @@ from typing import Any
 import rich
 import rich.console
 
-from secretscanner.types import TokenResults, TokenInfo
+from secretscanner.types import TokenResults, Token
 
 INDENT = "  "
 
@@ -19,7 +19,7 @@ def tokenlist_to_dict(tokens: TokenResults) -> dict[str, list[Any]]:
     return files
 
 
-def print_token(token: TokenInfo, console: rich.console.Console):
+def print_token(token: Token, console: rich.console.Console):
     rich.print(f"{INDENT*2}- [blue]Issuer[/]: {token['issuer']}")
     rich.print(f"{INDENT*2}  [blue]Type[/]: {token['type']}")
     if len(token["token"]) + 20 < console.width:

@@ -5,7 +5,7 @@ from secretscanner.token_info import token_issuer_parse_info
 from secretscanner.find import find_tokens
 from secretscanner.gitignore import set_ignored_flag
 from secretscanner.types import (
-    TokenInfo,
+    Token,
     TokenResults,
 )
 
@@ -38,7 +38,7 @@ def scan(scan_me: Path) -> TokenResults:
                 if tokens:
                     for match in tokens:
                         token_text = str(match.group(0))
-                        ft: TokenInfo = {
+                        ft: Token = {
                             "file": str(f),
                             "issuer": issuer,
                             "type": token_type,
