@@ -88,3 +88,7 @@ The tool currently recognizes the following secret types
 - Github access tokens
 - PyPI access tokens
 - Digital Ocean access tokens
+
+## Package Status
+
+![GitHub Workflow Status](https://img.shields.io/github/workflow/status/sffjunkie/secretscanner/secretscanner-test) ![PyPI - Downloads](https://img.shields.io/pypi/dm/secretscanner)
