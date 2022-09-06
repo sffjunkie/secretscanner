@@ -19,7 +19,7 @@ def find_re_secret(data: str, regex: str) -> list[Match[str]]:
 
 
 def find_url_secret(data: str, scheme: str | None = None) -> list[Match[str]]:
-    """Look for a URL with a password"""
+    """Look for a URL with a password matching the scheme if specified"""
     matches = list(re.finditer(JG_URL_REGEX, data, flags=re.IGNORECASE))
     found: list[Match[str]] = []
     if matches:
