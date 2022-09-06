@@ -6,7 +6,7 @@ from typing import Iterable
 
 import pathspec
 
-from secretscanner.types import TokenResults
+from secretscanner.types import SecretResults
 
 
 def rfindfile(filename: str, path: Path | None = None) -> Path | None:
@@ -54,15 +54,15 @@ def gitignored(
     return files, []
 
 
-def set_ignored_flag(tokens: TokenResults, directory: Path):
-    """Set the ignored flag on a token"""
-    files = {t["file"] for t in tokens}
+def set_ignored_flag(secrets: SecretResults, directory: Path):
+    """Set the ignored flag on a secret"""
+    files = {t["file"] for t in secrets}
     if not files:
         return
 
     ignored, notignored = gitignored(files, directory)
-    for token in tokens:
-        if token["file"] in ignored and token["file"] not in notignored:
-            token["ignored"] = True
+    for secret in secrets:
+        if secret["file"] in ignored and secret["file"] not in notignored:
+            secret["ignored"] = True
         else:
-            token["ignored"] = False
+            secret["ignored"] = False

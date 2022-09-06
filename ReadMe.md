@@ -44,39 +44,39 @@ Files with embedded secrets:
   /secretscanner/tests/dir/github/github.txt
     - Issuer: github
       Type: pat
-      Token: ghp_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
+      Secret: ghp_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
     - Issuer: github
       Type: oauth
-      Token: gho_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
+      Secret: gho_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
     - Issuer: github
       Type: user-to-server
-      Token: ghu_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
+      Secret: ghu_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
     - Issuer: github
       Type: server-to-server
-      Token: ghs_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
+      Secret: ghs_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
     - Issuer: github
       Type: refresh
-      Token: ghr_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
+      Secret: ghr_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghj
   /secretscanner/tests/dir/pypi/pypi.txt
     - Issuer: pypi
       Type: pat
-      Token:
+      Secret:
         pypi-AgEIcHlwaS5vcmcCJGzcex4tRk1EkM_jg2KTYkrCissgG2lvbnMiOiAidXNlciIsICJ2ZXJzaW9uIjogMX
         0AAAYgjeEtcvL8TyDUVri6iM0LTc2YzUtNDgwYy05NTA3LTlkMjBmZjY2MWY0
   /secretscanner/tests/dir/digitalocean/digitalocean.txt
     - Issuer: digitalocean
       Type: pat
-      Token:
+      Secret:
         dop_v1_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghjJHGHJJGJGHJGHJG76y78
         bhjksdbahjkghj
     - Issuer: digitalocean
       Type: oauth
-      Token:
+      Secret:
         doo_v1_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghjJHGHJJGJGHJGHJG76y78
         bhjksdbahjkghj
     - Issuer: digitalocean
       Type: refresh
-      Token:
+      Secret:
         dor_v1_GHJSGSJHGgjhgshjagjgasjgjhJHGHJJGJGHJGHJG76y78bhjksdbahjkghjJHGHJJGJGHJGHJG76y78
         bhjksdbahjkghj
 ```

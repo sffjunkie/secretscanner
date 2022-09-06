@@ -1,31 +1,31 @@
 """Type definitions"""
 from typing import TypedDict
 
-TokenIssuer = str
-IssuerTokenFormats = dict[TokenIssuer, str]
+SecretIssuer = str
+IssuerSecretFormats = dict[SecretIssuer, str]
 
 
-class TokenFormat(TypedDict):
-    """Information on how to match a token"""
+class SecretFormat(TypedDict):
+    """Information on how to match a secret"""
 
     type: str
     format: str
 
 
-# TokenFormat = str
-TokenType = str
-TokenParseInfo = dict[TokenType, TokenFormat]
-TokenIssuerParseInfo = dict[TokenIssuer, TokenParseInfo]
+# SecretFormat = str
+SecretType = str
+SecretParseInfo = dict[SecretType, SecretFormat]
+SecretIssuerParseInfo = dict[SecretIssuer, SecretParseInfo]
 
 
-class Token(TypedDict):
-    """Information about a token"""
+class Secret(TypedDict):
+    """Information about a secret"""
 
     file: str
-    issuer: TokenIssuer
-    token: str
-    type: TokenType
+    issuer: SecretIssuer
+    secret: str
+    type: SecretType
     ignored: bool
 
 
-TokenResults = list[Token]
+SecretResults = list[Secret]

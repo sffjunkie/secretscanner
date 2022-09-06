@@ -17,7 +17,7 @@ from secretscanner.scanner import scan
     "--verbose",
     default=False,
     is_flag=True,
-    help="If set includes information on the tokens in the report.",
+    help="If set includes information on the secrets in the report.",
 )
 @click.option(
     "-q", "--quiet", default=False, is_flag=True, help="If set no output is printed."
@@ -40,14 +40,14 @@ def run(
     if not scan_dir.exists():
         rich.print(f"Directory {directory} not found.")
 
-    tokens = scan(scan_dir)
+    secrets = scan(scan_dir)
     if not quiet:
         if not json:
-            report(tokens, verbose)
+            report(secrets, verbose)
         else:
-            json_report(tokens)
+            json_report(secrets)
 
-    if len(tokens) == 0:
+    if len(secrets) == 0:
         sys.exit(0)
     else:
         sys.exit(1)

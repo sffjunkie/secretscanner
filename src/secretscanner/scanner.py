@@ -1,13 +1,13 @@
-"""Token scanning"""
+"""Secret scanning"""
 from pathlib import Path
 from typing import Generator
 
-from secretscanner.token_info import token_issuer_parse_info
-from secretscanner.find import find_tokens
+from secretscanner.secret_info import secret_issuer_parse_info
+from secretscanner.find import find_secrets
 from secretscanner.gitignore import set_ignored_flag
 from secretscanner.types import (
-    Token,
-    TokenResults,
+    Secret,
+    SecretResults,
 )
 
 
@@ -20,14 +20,14 @@ def walk(path: Path) -> Generator[Path, None, None]:
         yield entry.resolve()
 
 
-def scan(scan_path: Path) -> TokenResults:
-    """Scan a path for tokens"""
+def scan(scan_path: Path) -> SecretResults:
+    """Scan a path for secrets"""
     if scan_path.is_file():
         files = [scan_path]
     else:
         files = list(walk(scan_path))
 
-    found: TokenResults = []
+    found: SecretResults = []
     for file_to_scan in files:
         with open(file_to_scan, "r") as fp:
             try:
@@ -35,20 +35,20 @@ def scan(scan_path: Path) -> TokenResults:
             except UnicodeDecodeError:
                 continue
 
-        for issuer, token_info in token_issuer_parse_info.items():
-            for token_type, token_format in token_info.items():
-                tokens = find_tokens(data, token_format)
-                if tokens:
-                    for match in tokens:
-                        token_text = str(match.group(0))
-                        token: Token = {
+        for issuer, secret_info in secret_issuer_parse_info.items():
+            for secret_type, secret_format in secret_info.items():
+                secrets = find_secrets(data, secret_format)
+                if secrets:
+                    for match in secrets:
+                        secret_text = str(match.group(0))
+                        secret: Secret = {
                             "file": str(file_to_scan),
                             "issuer": issuer,
-                            "type": token_type,
-                            "token": token_text,
+                            "type": secret_type,
+                            "secret": secret_text,
                             "ignored": False,
                         }
-                        found.append(token)
+                        found.append(secret)
 
     if found:
         set_ignored_flag(found, scan_path)
