@@ -28,9 +28,14 @@ from secretscanner.scanner import scan
     is_flag=True,
     help="If set the report is output as json.",
 )
-def run(directory: str, verbose: bool = False, quiet: bool = False, json: bool = False):
+def run(
+    directory: click.Path,
+    verbose: bool = False,
+    quiet: bool = False,
+    json: bool = False,
+):
     """Scan a directory for secrets."""
-    scan_dir = Path(directory).expanduser()
+    scan_dir = Path(str(directory)).expanduser()
     if not scan_dir.exists():
         rich.print(f"Directory {directory} not found.")
 
