@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Secret Scanner command line interface"""
 import sys
 from pathlib import Path
 
