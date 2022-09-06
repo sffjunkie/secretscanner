@@ -28,7 +28,7 @@ from secretscanner.scanner import scan
     is_flag=True,
     help="If set the report is output as json.",
 )
-def run(directory: str, verbose: bool, quiet: bool, json: bool):
+def run(directory: str, verbose: bool = False, quiet: bool = False, json: bool = False):
     """Scan a directory for secrets."""
     scan_dir = Path(directory).expanduser()
     if not scan_dir.exists():
