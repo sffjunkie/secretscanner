@@ -18,6 +18,7 @@ token_format: TokenParseInfo = {
     "linode": "[A-Za-z0-9]{64}",
 }
 token_issuer_parse_info: TokenIssuerParseInfo = {
+    # https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available/
     "github": {
         "pat": f"re(ghp_{token_format['github']})",
         "oauth": f"re(gho_{token_format['github']})",
@@ -37,15 +38,15 @@ token_issuer_parse_info: TokenIssuerParseInfo = {
         # https://io.adafruit.com/api/docs/#authentication
         "header": f"re(X-AIO-Key: {token_format['adafruit']})",
         "url": f"re(x-aio-key={token_format['adafruit']})",
-        "env": fr"ADAFRUIT_IO_KEY\s*\=\s*{token_format['adafruit']}",
+        "env": fr"re(ADAFRUIT_IO_KEY\s*\=\s*{token_format['adafruit']})",
     },
     "discord": {
         "url": f"re(client_id={token_format['discord']})",
         "bot": f"re(Authorization: Bot {token_format['discord']})",
     },
     "linode": {
-        "env": fr"LINODE_API_TOKEN\s*=\s*{token_format['linode']}",
-        "yaml": fr"LINODE_API_TOKEN\s*:\s*\"?{token_format['linode']}\"?",
+        "env": fr"re(LINODE_API_TOKEN\s*=\s*{token_format['linode']})",
+        "yaml": fr"re(LINODE_API_TOKEN\s*:\s*\"?{token_format['linode']}\"?)",
         "bearer": f"re(Authorization: Bearer {token_format['linode']})",
     },
 }
@@ -78,12 +79,13 @@ def scan(scan_me: Path) -> TokenResults:
                 tokens = find_tokens(data, token_format)
                 if tokens:
                     for match in tokens:
+                        token_text = str(match.group(0))
                         ft: TokenInfo = {
                             "file": str(f),
                             "issuer": issuer,
                             "type": token_type,
-                            "token": str(match.group(0)),
-                            "ignored": True,
+                            "token": token_text,
+                            "ignored": False,
                         }
                         found.append(ft)
 
