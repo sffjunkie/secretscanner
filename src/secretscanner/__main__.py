@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+import sys
 from pathlib import Path
 
 import click
@@ -41,9 +42,9 @@ def run(directory: str, verbose: bool, quiet: bool, json: bool):
             json_report(tokens)
 
     if len(tokens) == 0:
-        exit(0)
+        sys.exit(0)
     else:
-        exit(1)
+        sys.exit(1)
 
 
 run()
