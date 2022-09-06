@@ -12,7 +12,7 @@ from secretscanner.types import TokenResults, Token
 INDENT = "  "
 
 
-def tokenlist_to_dict(tokens: TokenResults) -> dict[str, list[Any]]:
+def tokenlist_to_file_dict(tokens: TokenResults) -> dict[str, list[Any]]:
     """Convert the list of tokens to a dict with file name as key."""
     files: dict[str, list[Any]] = defaultdict(list)
     for item in tokens:
@@ -42,10 +42,10 @@ def report(tokens: TokenResults, verbose: bool) -> None:
     """Print out report."""
     console = rich.console.Console()
 
-    td = tokenlist_to_dict(tokens)
+    token_to_file = tokenlist_to_file_dict(tokens)
 
     rich.print("[green]Files with embedded secrets:[/]")
-    for file, tokens in sorted(td.items()):
+    for file, tokens in sorted(token_to_file.items()):
         ignored = tokens[0]["ignored"]
         if ignored:
             color = "dim yellow"
