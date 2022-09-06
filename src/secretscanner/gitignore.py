@@ -39,13 +39,13 @@ def gitignored(
     files: Iterable[str], directory: Path
 ) -> tuple[Iterable[str], Iterable[str]]:
     """Determine whether files are ignored by `.gitignore` or not"""
-    gi = rfindfile(".gitignore", directory)
-    if gi is not None:
-        gispec = gitignore_pathspec(gi)
+    gitignore_file = rfindfile(".gitignore", directory)
+    if gitignore_file is not None:
+        gitignore_spec = gitignore_pathspec(gitignore_file)
         ignored: list[str] = []
         notignored: list[str] = []
         for file in files:
-            if gispec.match_file(file):  # type: ignore
+            if gitignore_spec.match_file(file):  # type: ignore
                 ignored.append(file)
             else:
                 notignored.append(file)
