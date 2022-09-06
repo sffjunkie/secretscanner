@@ -1,3 +1,4 @@
+"""Print scan report"""
 import json
 from collections import defaultdict
 from textwrap import wrap
