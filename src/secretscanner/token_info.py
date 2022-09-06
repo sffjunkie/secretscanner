@@ -1,3 +1,4 @@
+"""Token parsing information"""
 from secretscanner.types import (
     TokenIssuerParseInfo,
     IssuerTokenFormats,
