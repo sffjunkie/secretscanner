@@ -28,6 +28,9 @@ If secrets are found the tool exits with exit code `1`
 
 ## Output
 
+By default files which contain secrets are either yellow when they contain secrets and dim yellow if they contain secrets but the file is ignored by git
+i.e. the only reason they're not there is because a `.gitignore` file is provided.
+
 ### Default output
 
 ```
