@@ -27,7 +27,7 @@ def rfindfile(filename: str, path: Path | None = None) -> Path | None:
 
 def gitignore_pathspec(gitignore: Path) -> pathspec.PathSpec:
     """Get a pathspec for the `.gitignore` file"""
-    with open(gitignore, "r") as gifp:
+    with open(gitignore, "r", encoding="utf-8") as gifp:
         gidata = gifp.readlines()
         spec = pathspec.PathSpec.from_lines(  # type: ignore
             pathspec.patterns.GitWildMatchPattern, gidata
