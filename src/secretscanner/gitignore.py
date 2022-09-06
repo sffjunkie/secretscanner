@@ -18,11 +18,11 @@ def rfindfile(filename: str, path: Path | None = None) -> Path | None:
         files = [p.name for p in path.glob("*")]
         if filename in files:
             return path / filename
-        else:
-            if path.parent == path:
-                return None
-            else:
-                return rfindfile(filename, path.parent)
+
+        if path.parent == path:
+            return None
+
+        return rfindfile(filename, path.parent)
 
 
 def gitignore_pathspec(gitignore: Path) -> pathspec.PathSpec:
@@ -50,8 +50,8 @@ def gitignored(
             else:
                 notignored.append(file)
         return ignored, notignored
-    else:
-        return files, []
+
+    return files, []
 
 
 def set_ignored_flag(tokens: TokenResults, directory: Path):
