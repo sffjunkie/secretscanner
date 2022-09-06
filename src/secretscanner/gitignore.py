@@ -54,12 +54,9 @@ def set_ignored_flag(tokens: TokenResults, directory: Path):
     if not files:
         return
 
-    _ignored, notignored = gitignored(files, directory)
-    if not notignored:
-        return
-
+    ignored, notignored = gitignored(files, directory)
     for token in tokens:
-        if token["file"] in notignored:
-            token["ignored"] = False
-        else:
+        if token["file"] in ignored and token["file"] not in notignored:
             token["ignored"] = True
+        else:
+            token["ignored"] = False
