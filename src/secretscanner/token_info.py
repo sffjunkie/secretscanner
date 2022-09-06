@@ -10,6 +10,7 @@ token_format: IssuerTokenFormats = {
     "discord": r"[A-Za-z0-9]{32}",
     "linode": r"[A-Za-z0-9]{64}",
 }
+
 token_issuer_parse_info: TokenIssuerParseInfo = {
     # https://github.blog/changelog/2021-03-31-authentication-token-format-updates-are-generally-available/
     "github": {
