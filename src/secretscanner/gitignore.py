@@ -1,7 +1,10 @@
 from secretscanner.types import TokenResults
 from pathlib import Path
-import pathspec
 from typing import Iterable
+
+import pathspec
+
+from secretscanner.types import TokenResults
 
 
 def rfindfile(filename: str, path: Path | None = None) -> Path | None:
