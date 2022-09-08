@@ -93,4 +93,5 @@ secret_issuer_parse_info: SecretIssuerParseInfo = {
             "format": f"Authorization: Bearer {secret_format['linode']}",
         },
     },
+    "password": {"password": {"type": "re", "format": r"password="}},
 }

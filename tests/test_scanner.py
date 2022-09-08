@@ -56,11 +56,18 @@ def test_linode_count():
     assert len(results) == 3
 
 
+def test_password_count():
+    p = Path(__file__).parent / "dir" / "password"
+    results = scanner.scan(p)
+
+    assert len(results) == 1
+
+
 def test_all_count():
     p = Path(__file__).parent / "dir"
     results = scanner.scan(p)
 
-    assert len(results) == 18
+    assert len(results) == 19
 
 
 def test_pypi_info():
