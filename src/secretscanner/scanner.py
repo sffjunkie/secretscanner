@@ -25,7 +25,7 @@ def walk(path: Path) -> Generator[Path, None, None]:
 def scan(scan_path: Path) -> SecretResults:
     """Scan a path for secrets"""
     if scan_path.is_file():
-        files = [scan_path]
+        files = [str(scan_path)]
     else:
         files = list(walk(scan_path))
 
