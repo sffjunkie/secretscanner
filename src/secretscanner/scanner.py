@@ -11,6 +11,7 @@ from secretscanner.types import (
     Secret,
     SecretResults,
 )
+from secretscanner.progress_column_file import FileColumn
 
 
 def walk(path: Path) -> Generator[Path, None, None]:
