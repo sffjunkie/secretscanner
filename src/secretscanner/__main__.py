@@ -36,7 +36,7 @@ def run(
     json: bool = False,
 ):
     """Scan a directory for secrets."""
-    scan_dir = Path(str(directory)).expanduser()
+    scan_dir = Path(str(directory)).expanduser().resolve()
     if not scan_dir.exists():
         rich.print(f"Directory {directory} not found.")
 
