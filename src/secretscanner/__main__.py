@@ -31,9 +31,9 @@ from secretscanner.scanner import scan
 )
 def run(
     directory: click.Path,
-    verbose: bool = False,
-    quiet: bool = False,
-    json: bool = False,
+    verbose: bool,
+    quiet: bool,
+    json: bool,
 ):
     """Scan a directory for secrets."""
     scan_dir = Path(str(directory)).expanduser().resolve()
