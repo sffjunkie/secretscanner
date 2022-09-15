@@ -1,8 +1,10 @@
 """Secret scanning"""
+from datetime import timedelta
 from pathlib import Path
 from typing import Generator
 
 from rich.progress import Progress
+from rich.text import Text
 
 from secretscanner.secret_info import secret_issuer_parse_info
 from secretscanner.find import find_secrets
@@ -34,6 +36,7 @@ def scan(scan_path: Path) -> SecretResults:
     file_count = len(files)
     file_progress_column = FileColumn(files, root_path=str(scan_path))
 
+    task = None
     with Progress(*Progress.get_default_columns(), file_progress_column) as progress:
         scan_task = progress.add_task("Scanning...", total=file_count)
         for idx, file_to_scan in enumerate(files):
@@ -58,6 +61,16 @@ def scan(scan_path: Path) -> SecretResults:
                         found.append(secret)
 
             progress.update(scan_task, completed=idx + 1)
+
+        task = progress._tasks[scan_task]  # type: ignore
+
+    finished_time = int(task.finished_time or 0)
+    print(f"{len(files)} files scanned", end="")
+
+    if finished_time > 0:
+        total_time = timedelta(seconds=finished_time)
+        finished_time_text = Text(str(total_time), style="progress.elapsed")
+        print(f" in {finished_time_text}")
 
     if found:
         set_ignored_flag(found, scan_path)
