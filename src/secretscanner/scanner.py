@@ -16,13 +16,24 @@ from secretscanner.types import (
 from secretscanner.progress_column_file import FileColumn
 
 
-def walk(path: Path) -> Generator[Path, None, None]:
+def file_filter(path: Path):
+    """Filter out files before processing"""
+    return path
+
+
+def walk(path: Path) -> Generator[str, None, None]:
     """Walk a path and return all files found"""
     for entry in Path(path).iterdir():
         if entry.is_dir():
             yield from walk(entry)
             continue
-        yield entry.resolve()
+
+        if entry.stat().st_size <= 0:
+            continue
+
+        resolved = entry.resolve()
+        if file_filter(resolved):
+            yield str(resolved)
 
 
 def scan(scan_path: Path) -> SecretResults:
@@ -44,24 +55,24 @@ def scan(scan_path: Path) -> SecretResults:
         scan_task = progress.add_task("Scanning...", total=file_count)
         for idx, file_to_scan in enumerate(files):
             with open(file_to_scan, "r", encoding="utf-8") as fileptr:
-            try:
+                try:
                     data = fileptr.read(-1)
-            except UnicodeDecodeError:
-                continue
+                except UnicodeDecodeError:
+                    continue
 
-        for issuer, secret_info in secret_issuer_parse_info.items():
-            for secret_type, secret_format in secret_info.items():
-                secrets = find_secrets(data, secret_format)
-                if secrets:
+            for issuer, secret_info in secret_issuer_parse_info.items():
+                for secret_type, secret_format in secret_info.items():
+                    secrets = find_secrets(data, secret_format)
+                    if secrets:
                         for secret_text in secrets:
-                        secret: Secret = {
-                            "file": str(file_to_scan),
-                            "issuer": issuer,
-                            "type": secret_type,
-                            "secret": secret_text,
-                            "ignored": False,
-                        }
-                        found.append(secret)
+                            secret: Secret = {
+                                "file": str(file_to_scan),
+                                "issuer": issuer,
+                                "type": secret_type,
+                                "secret": secret_text,
+                                "ignored": False,
+                            }
+                            found.append(secret)
 
             progress.update(scan_task, completed=idx + 1)
 
