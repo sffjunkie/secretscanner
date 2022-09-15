@@ -69,4 +69,5 @@ def report(secrets: SecretResults, verbose: bool) -> None:
 
 def json_report(secrets: SecretResults) -> None:
     """Print out the secrets as a JSON formatted string."""
+    if secrets:
     print(json.dumps(secrets))
