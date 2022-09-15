@@ -63,7 +63,7 @@ def report(secrets: SecretResults, verbose: bool) -> None:
             suffix = " [dim](ignored via .gitignore)[/]"
         else:
             if verbose:
-            color = "blue"
+                color = "blue"
             else:
                 color = "yellow"
             suffix = ""
@@ -77,4 +77,4 @@ def report(secrets: SecretResults, verbose: bool) -> None:
 def json_report(secrets: SecretResults) -> None:
     """Print out the secrets as a JSON formatted string."""
     if secrets:
-    print(json.dumps(secrets))
+        print(json.dumps(secrets))
