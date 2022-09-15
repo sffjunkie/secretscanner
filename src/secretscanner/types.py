@@ -29,3 +29,11 @@ class Secret(TypedDict):
 
 
 SecretResults = list[Secret]
+
+
+class ScanResults(TypedDict):
+    """Results of the secret scan"""
+
+    file_count: int
+    scan_time: int
+    secrets: SecretResults

@@ -40,17 +40,17 @@ def run(
     if not scan_dir.exists():
         rich.print(f"Directory {directory} not found.")
 
-    secrets = scan(scan_dir)
-    if not quiet:
+    results = scan(scan_dir, quiet)
+    if not quiet and results is not None:
         if not json:
-            report(secrets, verbose)
+            report(results, verbose)
         else:
-            json_report(secrets)
+            json_report(results)
 
-    if len(secrets) == 0:
-        sys.exit(0)
-    else:
+    if results and len(results["secrets"]) != 0:
         sys.exit(1)
+    else:
+        sys.exit(0)
 
 
 run()
