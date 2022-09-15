@@ -35,7 +35,7 @@ def walk(path: Path) -> Generator[str, None, None]:
             yield str(resolved)
 
 
-def scan(scan_path: Path, quiet: bool) -> ScanResults | None:
+def scan(scan_path: Path, quiet: bool = False) -> ScanResults | None:
     """Scan a path for secrets"""
     if scan_path.is_file():
         files = [str(scan_path)]
