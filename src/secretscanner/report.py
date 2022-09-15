@@ -7,6 +7,7 @@ from typing import Any
 import rich
 import rich.console
 
+from secretscanner.highlighter import SecretHighlighter
 from secretscanner.types import SecretResults, Secret
 
 INDENT = "  "
@@ -23,10 +24,13 @@ def secretlist_to_file_dict(secrets: SecretResults) -> dict[str, list[Any]]:
 
 def print_secret(secret: Secret, console: rich.console.Console):
     """Print the information on a single secret"""
+    highlighter = SecretHighlighter()
     rich.print(f"{INDENT*2}- [blue]Issuer[/]: {secret['issuer']}")
     rich.print(f"{INDENT*2}  [blue]Type[/]: {secret['type']}")
     if len(secret["secret"]) + 20 < console.width:
-        rich.print(f"{INDENT*2}  [blue]Secret[/]: {secret['secret']}")
+        secret_text = secret["secret"].strip("\n")
+        rich.print(f"{INDENT*2}  [blue]Secret[/]: ", end="")
+        rich.print(highlighter(f"{secret_text}"))
     else:
         rich.print(f"{INDENT*2}  [blue]Secret[/]:")
         txt = wrap(
@@ -35,7 +39,7 @@ def print_secret(secret: Secret, console: rich.console.Console):
             initial_indent=INDENT * 3 + "  ",
             subsequent_indent=INDENT * 3 + "  ",
         )
-        rich.print("\n".join(txt))
+        rich.print(highlighter("\n".join(txt)))
 
 
 def report(secrets: SecretResults, verbose: bool) -> None:
@@ -48,10 +52,10 @@ def report(secrets: SecretResults, verbose: bool) -> None:
     for file, secrets_in_file in sorted(secret_to_file.items()):
         ignored = secrets_in_file[0]["ignored"]
         if ignored:
-            color = "dim yellow"
-            suffix = " (ignored via .gitignore)"
+            color = "dim blue"
+            suffix = " [italic](ignored via .gitignore)[/]"
         else:
-            color = "yellow"
+            color = "blue"
             suffix = ""
 
         rich.print(f"{INDENT}[{color}]{file}{suffix}[/]")
