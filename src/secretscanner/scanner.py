@@ -74,6 +74,8 @@ def scan(scan_path: Path) -> SecretResults:
         total_time = timedelta(seconds=finished_time)
         finished_time_text = Text(str(total_time), style="progress.elapsed")
         print(f" in {finished_time_text}")
+    else:
+        print()
 
     if found:
         set_ignored_flag(found, scan_path)
