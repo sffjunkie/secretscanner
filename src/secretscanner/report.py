@@ -45,6 +45,9 @@ def print_secret(secret: Secret, console: rich.console.Console):
 def report(secrets: SecretResults, verbose: bool) -> None:
     """Print out report."""
     console = rich.console.Console()
+    if not secrets:
+        rich.print("[green]No secrets found[/]")
+        return
 
     secret_to_file = secretlist_to_file_dict(secrets)
 
