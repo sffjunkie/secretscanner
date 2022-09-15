@@ -35,12 +35,9 @@ def find_url_secret(data: str, scheme: str | None = None) -> list[Match[str]]:
     return found
 
 
-def find_secrets(data: str, secret_format: SecretFormat) -> list[Match[str]]:
+def find_secrets(data: str, secret_format: SecretFormat) -> list[str]:
     """Find all secrets within the data"""
     if secret_format["type"] == "url":
-        matches = find_url_secret(data, scheme=secret_format["format"])
+        return find_url_secret(data, scheme=secret_format["format"])
     else:
-        matches = find_re_secret(data, secret_format["format"])
-
-    matches = list(matches)
-    return matches
+        return find_re_secret(data, secret_format["format"])
