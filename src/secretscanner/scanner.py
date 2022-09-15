@@ -32,6 +32,9 @@ def scan(scan_path: Path) -> SecretResults:
     else:
         files = list(walk(scan_path))
 
+    if not files:
+        return []
+
     found: SecretResults = []
     file_count = len(files)
     file_progress_column = FileColumn(files, root_path=str(scan_path))
