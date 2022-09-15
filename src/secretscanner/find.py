@@ -1,36 +1,30 @@
 """Find secrets within data"""
 
 import re
-from typing import Match
-from urllib.parse import urlparse
 
+from ppuri import uri
 
 from secretscanner.types import SecretFormat
 
 
-# https://gist.github.com/gruber/249502
-JG_URL_REGEX = r"(?i)\b((?:[a-z][\w-]+:(?:/{1,3}|[a-z0-9%])|www\d{0,3}[.]|[a-z0-9.\-]+[.][a-z]{2,4}/)(?:[^\s()<>]+|\(([^\s()<>]+|(\([^\s()<>]+\)))*\))+(?:\(([^\s()<>]+|(\([^\s()<>]+\)))*\)|[^\s`!()\[\]{};:'\".,<>?«»“”‘’]))"
-
-
-def find_re_secret(data: str, regex: str) -> list[Match[str]]:
+def find_re_secret(data: str, regex: str) -> list[str]:
     """Look for text matching a regular expression"""
     regex = f"({regex})"  # parse into a match group
-    return list(re.finditer(regex, data, flags=re.IGNORECASE))
+    return [match.group(0) for match in re.finditer(regex, data, flags=re.IGNORECASE)]
 
 
-def find_url_secret(data: str, scheme: str | None = None) -> list[Match[str]]:
+def find_url_secret(data: str, scheme: str | None = None) -> list[str]:
     """Look for a URL with a password matching the scheme if specified"""
-    matches = list(re.finditer(JG_URL_REGEX, data, flags=re.IGNORECASE))
-    found: list[Match[str]] = []
+    matches = list(uri.scan(data))
+    found: list[str] = []
     if matches:
         for match in matches:
             if scheme is None:
-                found.append(match)
+                found.append(match["uri"])
             else:
-                url_str = match.group(0)
-                url = urlparse(url_str)
-                if url.scheme == scheme and url.password is not None:
-                    found.append(match)
+                if match["scheme"] == scheme:
+                    if "password" in match["authority"]:
+                        found.append(match["uri"])
 
     return found
 

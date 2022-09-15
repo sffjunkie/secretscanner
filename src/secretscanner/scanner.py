@@ -47,8 +47,7 @@ def scan(scan_path: Path) -> SecretResults:
             for secret_type, secret_format in secret_info.items():
                 secrets = find_secrets(data, secret_format)
                 if secrets:
-                    for match in secrets:
-                        secret_text = str(match.group(0))
+                        for secret_text in secrets:
                         secret: Secret = {
                             "file": str(file_to_scan),
                             "issuer": issuer,
