@@ -51,14 +51,21 @@ def report(secrets: SecretResults, verbose: bool) -> None:
 
     secret_to_file = secretlist_to_file_dict(secrets)
 
-    rich.print("[green]Files with embedded secrets:[/]")
+    if not verbose:
+        rich.print("[yellow]Files with embedded secrets:[/]")
+    else:
+        rich.print("[yellow]Embedded secrets:[/]")
+
     for file, secrets_in_file in sorted(secret_to_file.items()):
         ignored = secrets_in_file[0]["ignored"]
         if ignored:
-            color = "dim blue"
-            suffix = " [italic](ignored via .gitignore)[/]"
+            color = "yellow"
+            suffix = " [dim](ignored via .gitignore)[/]"
         else:
+            if verbose:
             color = "blue"
+            else:
+                color = "yellow"
             suffix = ""
 
         rich.print(f"{INDENT}[{color}]{file}{suffix}[/]")
