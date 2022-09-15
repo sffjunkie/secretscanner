@@ -1,3 +1,4 @@
+"""A Rich highlighter to highlight secrets"""
 import re
 
 from rich.text import Text
@@ -16,6 +17,8 @@ EQUALS_SECRET_RE = r"[\w.-]+\s*=\s*(?P<yellow>[\w.-]+)"
 
 
 class SecretHighlighter(RegexHighlighter):
+    """Secret highlighter class"""
+
     def highlight(self, text: Text):
         for regex in [
             URL_SECRET_RE,

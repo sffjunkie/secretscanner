@@ -1,3 +1,4 @@
+"""A Rich progress bar column to show the current file being scanned."""
 from pathlib import Path
 from typing import Sequence
 from rich.progress import ProgressColumn, Task
@@ -5,6 +6,8 @@ from rich.text import Text
 
 
 class FileColumn(ProgressColumn):
+    """A Rich progress bar column to display a file name"""
+
     def __init__(self, seq: Sequence[str], root_path: str = "") -> None:
         self._seq = seq
         self._count = len(seq)
