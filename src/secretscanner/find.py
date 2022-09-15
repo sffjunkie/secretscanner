@@ -34,4 +34,4 @@ def find_secrets(data: str, secret_format: SecretFormat) -> list[str]:
     if secret_format["type"] == "url":
         return find_url_secret(data, scheme=secret_format["format"])
 
-        return find_re_secret(data, secret_format["format"])
+    return find_re_secret(data, secret_format["format"])
