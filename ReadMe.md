@@ -22,7 +22,7 @@ To also display info on the tokens that have been found pass the `-v`/`--verbose
 
 To hide the output pass the `-q`/`--quiet` flag.
 
-To output the tokens found as josn pass the `-j`/`--json` flag.
+To output the tokens found as json pass the `-j`/`--json` flag.
 
 If secrets are found the tool exits with exit code `1`
 
