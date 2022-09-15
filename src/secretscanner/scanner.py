@@ -43,9 +43,9 @@ def scan(scan_path: Path) -> SecretResults:
     with Progress(*Progress.get_default_columns(), file_progress_column) as progress:
         scan_task = progress.add_task("Scanning...", total=file_count)
         for idx, file_to_scan in enumerate(files):
-        with open(file_to_scan, "r") as fp:
+            with open(file_to_scan, "r", encoding="utf-8") as fileptr:
             try:
-                data = fp.read(-1)
+                    data = fileptr.read(-1)
             except UnicodeDecodeError:
                 continue
 

@@ -4,10 +4,10 @@ import re
 from rich.text import Text
 from rich.highlighter import RegexHighlighter
 
-user = r"[-0-9a-zA-Z$_+!`(),.?/;&=%#]+"
-password = r"(?P<yellow>[-0-9a-zA-Z$_+!`(),.?/;:&=%#]+)"
+USER = r"[-0-9a-zA-Z$_+!`(),.?/;&=%#]+"
+PASSWORD = r"(?P<yellow>[-0-9a-zA-Z$_+!`(),.?/;:&=%#]+)"
 
-userpass = fr"{user}:{password}@"
+userpass = fr"{USER}:{PASSWORD}@"
 
 URL_SECRET_RE = fr"[a-zA-Z]+[\w.]*://{userpass}[-0-9a-zA-Z$_+!`(),.?/;:&=%#]*"
 BEARER_SECRET_RE = r".*Bearer\s+(?P<yellow>\w+)"

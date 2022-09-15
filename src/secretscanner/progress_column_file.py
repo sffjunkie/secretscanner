@@ -21,14 +21,14 @@ class FileColumn(ProgressColumn):
 
         _text: str = filename if task.completed < (self._count - 1) else ""
         if _text:
-            p = Path(_text)
-            _text = p.name
-            parts = p.parts
+            text_path = Path(_text)
+            _text = text_path.name
+            parts = text_path.parts
             if len(parts) > 3:
                 prefix = str(parts[0])
                 suffix = "/".join(parts[-2:])
                 _text = f"{prefix}/.../{suffix}"
             else:
-                _text = str(p)
+                _text = str(text_path)
         text = Text(_text)
         return text
