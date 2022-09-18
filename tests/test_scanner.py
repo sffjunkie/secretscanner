@@ -74,7 +74,7 @@ def test_all_count():
     results = scanner.scan(p)
 
     assert results is not None
-    assert len(results["secrets"]) == 19
+    assert len(results["secrets"]) == 20
 
 
 def test_pypi_info():
