@@ -1,6 +1,7 @@
 """Secret scanning"""
 from pathlib import Path
 from typing import Generator
+import concurrent.futures
 
 from rich.progress import Progress
 
@@ -17,7 +18,8 @@ from secretscanner.progress_column_file import FileColumn
 
 def file_filter(path: Path):
     """Filter out files before processing"""
-    return path
+    if not "__pycache__" in str(path):
+        return path
 
 
 def walk(path: Path) -> Generator[str, None, None]:
@@ -49,26 +51,38 @@ def scan(scan_path: Path, quiet: bool = False) -> ScanResults | None:
     finished_time = 0
     found: SecretResults = []
 
-    if quiet:
-        for idx, file_to_scan in enumerate(files):
-            scan_file(file_to_scan, found)
+    if file_count == 1:
+        found = scan_file(files[0])
     else:
-        if file_count > 1:
+        if quiet:
+            with concurrent.futures.ProcessPoolExecutor() as executor:
+                future_to_scan = {
+                    executor.submit(scan_file, filename): filename for filename in files
+                }
+                for future in concurrent.futures.as_completed(future_to_scan):
+                    secrets = future.result()
+                    found += secrets
+        else:
+            completed = 0
             file_progress_column = FileColumn(files, root_path=str(scan_path))
-            task = None
             with Progress(
                 *Progress.get_default_columns(), file_progress_column
             ) as progress:
-                scan_task = progress.add_task("Scanning...", total=file_count)
-                for idx, file_to_scan in enumerate(files):
-                    scan_file(file_to_scan, found)
-                    progress.update(scan_task, completed=idx + 1)
+                progress_task = progress.add_task("Scanning...", total=file_count)
+                with concurrent.futures.ProcessPoolExecutor() as executor:
+                    future_to_scan = {
+                        executor.submit(scan_file, filename): filename
+                        for filename in files
+                    }
+                    for future in concurrent.futures.as_completed(future_to_scan):
+                        secrets = future.result()
+                        found += secrets
+                        completed += 1
+                        progress.update(progress_task, completed=completed)
 
-                task = progress._tasks[scan_task]  # type: ignore
+                progress_task = progress._tasks[progress_task]  # type: ignore
 
-            finished_time = int(task.finished_time or 0)
-        else:
-            scan_file(files[0], found)
+            finished_time = int(progress_task.finished_time or 0)
 
     if found:
         set_ignored_flag(found, scan_path)
@@ -81,17 +95,20 @@ def scan(scan_path: Path, quiet: bool = False) -> ScanResults | None:
     return results
 
 
-def scan_file(file_to_scan: str, found: SecretResults):
+def scan_file(file_to_scan: str) -> SecretResults:
     """Scan a single file for secrets"""
-    with open(file_to_scan, "r", encoding="utf-8") as fileptr:
+    found: SecretResults = []
+
+    with open(file_to_scan, mode="r") as fileptr:  # type: ignore
         try:
-            data = fileptr.read(-1)
+            data = fileptr.read(-1)  # type: ignore
         except UnicodeDecodeError:
-            return
+            return []
 
     for issuer, secret_info in secret_issuer_parse_info.items():
         for secret_type, secret_format in secret_info.items():
-            secrets = find_secrets(data, secret_format)
+            secrets = find_secrets(data, secret_format)  # type: ignore
+
             if secrets:
                 for secret_text in secrets:
                     secret: Secret = {
@@ -102,3 +119,5 @@ def scan_file(file_to_scan: str, found: SecretResults):
                         "ignored": False,
                     }
                     found.append(secret)
+
+    return found
