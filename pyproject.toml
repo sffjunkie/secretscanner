@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "secretscanner"
-version = "0.2.0"
+version = "0.2.1"
 description = "Scan for secrets within files."
 authors = ["Simon Kennedy <sffjunkie+code@gmail.com>"]
 license = "Apache-2.0"
