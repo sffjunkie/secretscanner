@@ -1,3 +1,7 @@
+# 0.2.1
+
+- Updated scanner to use ProcessPoolExecutor to execute scan
+
 # v0.2.0
 
 - Now uses the `ppuri` package to scan for URLs

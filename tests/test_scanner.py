@@ -1,10 +1,6 @@
 from pathlib import Path
 
-from secretscanner import __version__, scanner
-
-
-def test_version():
-    assert __version__ == "0.2.0"
+from secretscanner import scanner
 
 
 def test_pypi_count():
