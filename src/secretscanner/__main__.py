@@ -53,4 +53,5 @@ def run(
         sys.exit(0)
 
 
-run()
+if __name__ == "__main__":
+    run()
